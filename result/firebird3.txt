@@ -1,4 +1,4 @@
-= ISOLATION LEVEL b'\x03\t\x06\x0f\x11'
+= ISOLATION LEVEL ISOLATION_LEVEL_READ_COMMITED
 == QUERY delete from trig_v where v=-1 or i in (2, 3)
 === BLOCKER True
 T21 EXECUTING: update t set v=-1 where i=3
@@ -791,7 +791,7 @@ T32 RESULT OF: select i, tn, sn, o, n from log
 (5, 26, None, 0, -1)
 (5, 23, None, -1, None)
 T32 COMMITTED
-= ISOLATION LEVEL b'\x03\t\x06\x02'
+= ISOLATION LEVEL ISOLATION_LEVEL_SNAPSHOT
 == QUERY delete from trig_v where v=-1 or i in (2, 3)
 === BLOCKER True
 T21 EXECUTING: update t set v=-1 where i=3
