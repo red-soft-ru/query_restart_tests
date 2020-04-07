@@ -2,8 +2,8 @@ import fdb
 from fdb.ibase import *
 from fdb.fbcore import *
 
-fbClient = '/Library/Frameworks/Firebird.framework/Libraries/libfbclient.dylib'
-database = '10.81.1.78:/home/roman/qr/qr.fdb'
+fbClient = '/home/roman/prj/fb/firebird/gen/Debug/firebird/lib/libfbclient.so'
+database = 'localhost:/home/roman/qr/qr.fdb'
 
 
 def qe(query, traOpt = ISOLATION_LEVEL_READ_COMMITED):

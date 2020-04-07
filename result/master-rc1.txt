@@ -1,0 +1,1589 @@
+= ISOLATION LEVEL b'\x03\t\x06\x0f\x11'
+== QUERY delete from trig_v where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from trig_v where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: delete from trig_v where v=-1 or i in (2, 3)
+T23 COMMITTED
+T39 EXECUTING: select * from t
+T39 RESULT OF: select * from t
+(4, 0)
+T39 COMMITTED
+T40 EXECUTING: select i, tn, sn, o, n from log
+T40 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(2, 23, None, 0, None)
+(3, -23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+(1, -23, None, -1, None)
+(1, 23, None, -1, None)
+(2, -23, None, 0, None)
+(2, 23, None, 0, None)
+(3, -23, None, -1, None)
+(3, 23, None, -1, None)
+(5, -23, None, -1, None)
+(5, 23, None, -1, None)
+T40 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from trig_v where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: delete from trig_v where v=-1 or i in (2, 3)
+T23 COMMITTED
+T31 EXECUTING: select * from t
+T31 RESULT OF: select * from t
+(1, -1)
+(4, 0)
+(5, -1)
+T31 COMMITTED
+T32 EXECUTING: select i, tn, sn, o, n from log
+T32 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(2, 23, None, 0, None)
+(3, -23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+T32 COMMITTED
+== QUERY update trig_v set v=1 where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update trig_v set v=1 where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: update trig_v set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T39 EXECUTING: select * from t
+T39 RESULT OF: select * from t
+(1, 1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, 1)
+T39 COMMITTED
+T40 EXECUTING: select i, tn, sn, o, n from log
+T40 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, 1)
+(2, 23, None, 0, 1)
+(3, -23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+(1, -23, None, -1, 1)
+(1, 23, None, -1, 1)
+(2, -23, None, 0, 1)
+(2, 23, None, 0, 1)
+(3, -23, None, -1, 1)
+(3, 23, None, -1, 1)
+(5, -23, None, -1, 1)
+(5, 23, None, -1, 1)
+T40 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update trig_v set v=1 where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: update trig_v set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T31 EXECUTING: select * from t
+T31 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T31 COMMITTED
+T32 EXECUTING: select i, tn, sn, o, n from log
+T32 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, 1)
+(2, 23, None, 0, 1)
+(3, -23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+T32 COMMITTED
+== QUERY update vt set v=1 where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update vt set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: update vt set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T33 EXECUTING: select * from t
+T33 RESULT OF: select * from t
+(1, 1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, 1)
+T33 COMMITTED
+T34 EXECUTING: select i, tn, sn, o, n from log
+T34 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+(1, 23, None, -1, 1)
+(2, 23, None, 0, 1)
+(3, 23, None, -1, 1)
+(5, 23, None, -1, 1)
+T34 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update vt set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: update vt set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY delete from vt where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from vt where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: delete from vt where v=-1 or i in (2, 3)
+T23 COMMITTED
+T33 EXECUTING: select * from t
+T33 RESULT OF: select * from t
+(4, 0)
+T33 COMMITTED
+T34 EXECUTING: select i, tn, sn, o, n from log
+T34 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+(1, 23, None, -1, None)
+(2, 23, None, 0, None)
+(3, 23, None, -1, None)
+(5, 23, None, -1, None)
+T34 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from vt where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: delete from vt where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY execute procedure p_cur
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_cur
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: execute procedure p_cur
+T23 COMMITTED
+T33 EXECUTING: select * from t
+T33 RESULT OF: select * from t
+(1, 1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, 1)
+T33 COMMITTED
+T34 EXECUTING: select i, tn, sn, o, n from log
+T34 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+(1, 23, None, -1, 1)
+(2, 23, None, 0, 1)
+(3, 23, None, -1, 1)
+(5, 23, None, -1, 1)
+T34 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_cur
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: execute procedure p_cur
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY select * from p_s
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_s
+T23 RESULT OF: select * from p_s
+(0,)
+(0,)
+T23 COMMITTED
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(3, -23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_s
+T23 RESULT OF: select * from p_s
+(0,)
+(0,)
+T23 COMMITTED
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(3, -23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY select * from p_slock
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_slock
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 COMMITTED
+T23 FETCH ERROR: ("Cursor.fetchone:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At procedure 'P_SLOCK' line: 14, col: 25", -913, 335544336)
+T23 COMMITTED
+T28 EXECUTING: select * from t
+T28 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T28 COMMITTED
+T29 EXECUTING: select i, tn, sn, o, n from log
+T29 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+T29 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_slock
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 ROLLED BACK
+T23 RESULT OF: select * from p_slock
+(0,)
+(0,)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+(3, -23, None, 0, None)
+T30 COMMITTED
+== QUERY execute procedure p_nos
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_nos
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: execute procedure p_nos
+T23 COMMITTED
+T32 EXECUTING: select * from t
+T32 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T32 COMMITTED
+T33 EXECUTING: select i, tn, sn, o, n from log
+T33 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+(1, -23, None, -1, None)
+(2, -23, None, 0, None)
+(3, -23, None, -1, None)
+(5, -23, None, -1, None)
+T33 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_nos
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: execute procedure p_nos
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+(3, -23, None, 0, None)
+T30 COMMITTED
+== QUERY execute procedure p_upd
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_upd
+T27 EXECUTING: update t set v=-1 where i in (1, 5)
+T27 EXECUTED: update t set v=-1 where i in (1, 5)
+T27 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: execute procedure p_upd
+T23 COMMITTED
+T35 EXECUTING: select * from t
+T35 RESULT OF: select * from t
+(1, 1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, 1)
+T35 COMMITTED
+T36 EXECUTING: select i, tn, sn, o, n from log
+T36 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(None, -23, None, None, None)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 27, None, 0, -1)
+(5, 27, None, 0, -1)
+(None, -23, None, None, None)
+(1, 23, None, -1, 1)
+(2, 23, None, 0, 1)
+(3, 23, None, -1, 1)
+(5, 23, None, -1, 1)
+T36 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_upd
+T27 EXECUTING: update t set v=-1 where i in (1, 5)
+T27 EXECUTED: update t set v=-1 where i in (1, 5)
+T27 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: execute procedure p_upd
+T23 COMMITTED
+T30 EXECUTING: select * from t
+T30 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T30 COMMITTED
+T31 EXECUTING: select i, tn, sn, o, n from log
+T31 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(None, -23, None, None, None)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 27, None, 0, -1)
+(5, 27, None, 0, -1)
+T31 COMMITTED
+== QUERY select * from t where v=-1 or i in (3, 4) with lock
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (3, 4) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 COMMITTED
+T23 RESULT OF: select * from t where v=-1 or i in (3, 4) with lock
+(1, -1)
+(3, -1)
+(4, 0)
+(5, -1)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (3, 4) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 ROLLED BACK
+T23 RESULT OF: select * from t where v=-1 or i in (3, 4) with lock
+(3, 0)
+(4, 0)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+== QUERY select * from t where v=-1 or i in (2,3) with lock
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (2,3) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 COMMITTED
+T23 FETCH ERROR: ('Cursor.fetchone:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (2,3) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 ROLLED BACK
+T23 RESULT OF: select * from t where v=-1 or i in (2,3) with lock
+(2, 0)
+(3, 0)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+== QUERY 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T23 COMMITTED
+T33 EXECUTING: select * from t
+T33 RESULT OF: select * from t
+(1, 1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, 1)
+T33 COMMITTED
+T34 EXECUTING: select i, tn, sn, o, n from log
+T34 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+(1, 23, None, -1, 1)
+(2, 23, None, 0, 1)
+(3, 23, None, -1, 1)
+(5, 23, None, -1, 1)
+T34 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY update t set v=1 where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update t set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: update t set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T33 EXECUTING: select * from t
+T33 RESULT OF: select * from t
+(1, 1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, 1)
+T33 COMMITTED
+T34 EXECUTING: select i, tn, sn, o, n from log
+T34 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+(1, 23, None, -1, 1)
+(2, 23, None, 0, 1)
+(3, 23, None, -1, 1)
+(5, 23, None, -1, 1)
+T34 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update t set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: update t set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY delete from t where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from t where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTED: delete from t where v=-1 or i in (2, 3)
+T23 COMMITTED
+T33 EXECUTING: select * from t
+T33 RESULT OF: select * from t
+(4, 0)
+T33 COMMITTED
+T34 EXECUTING: select i, tn, sn, o, n from log
+T34 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+(1, 23, None, -1, None)
+(2, 23, None, 0, None)
+(3, 23, None, -1, None)
+(5, 23, None, -1, None)
+T34 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from t where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: delete from t where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+= ISOLATION LEVEL b'\x03\t\x06\x02'
+== QUERY delete from trig_v where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from trig_v where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ("Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At trigger 'BD_TRIG_V' line: 11, col: 21", -913, 335544336)
+T23 COMMITTED
+T31 EXECUTING: select * from t
+T31 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T31 COMMITTED
+T32 EXECUTING: select i, tn, sn, o, n from log
+T32 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(2, 23, None, 0, None)
+(3, -23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+T32 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from trig_v where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: delete from trig_v where v=-1 or i in (2, 3)
+T23 COMMITTED
+T31 EXECUTING: select * from t
+T31 RESULT OF: select * from t
+(1, -1)
+(4, 0)
+(5, -1)
+T31 COMMITTED
+T32 EXECUTING: select i, tn, sn, o, n from log
+T32 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(2, 23, None, 0, None)
+(3, -23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+T32 COMMITTED
+== QUERY update trig_v set v=1 where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update trig_v set v=1 where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ("Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At trigger 'BU_TRIG_V' line: 11, col: 21", -913, 335544336)
+T23 COMMITTED
+T31 EXECUTING: select * from t
+T31 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T31 COMMITTED
+T32 EXECUTING: select i, tn, sn, o, n from log
+T32 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, 1)
+(2, 23, None, 0, 1)
+(3, -23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+T32 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update trig_v set v=1 where v=-1 or i in (2, 3)
+T28 EXECUTING: update t set v=-1 where i in (1, 5)
+T28 EXECUTED: update t set v=-1 where i in (1, 5)
+T28 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: update trig_v set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T31 EXECUTING: select * from t
+T31 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T31 COMMITTED
+T32 EXECUTING: select i, tn, sn, o, n from log
+T32 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, 1)
+(2, 23, None, 0, 1)
+(3, -23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 28, None, 0, -1)
+(5, 28, None, 0, -1)
+T32 COMMITTED
+== QUERY update vt set v=1 where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update vt set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ('Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update vt set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: update vt set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY delete from vt where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from vt where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ('Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from vt where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: delete from vt where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY execute procedure p_cur
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_cur
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ("Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At procedure 'P_CUR' line: 7, col: 25", -913, 335544336)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_cur
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: execute procedure p_cur
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY select * from p_s
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_s
+T23 RESULT OF: select * from p_s
+(0,)
+(0,)
+T23 COMMITTED
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(3, -23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_s
+T23 RESULT OF: select * from p_s
+(0,)
+(0,)
+T23 COMMITTED
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(3, -23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY select * from p_slock
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_slock
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 COMMITTED
+T23 FETCH ERROR: ("Cursor.fetchone:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At procedure 'P_SLOCK' line: 14, col: 25", -913, 335544336)
+T23 COMMITTED
+T28 EXECUTING: select * from t
+T28 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T28 COMMITTED
+T29 EXECUTING: select i, tn, sn, o, n from log
+T29 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+T29 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from p_slock
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 ROLLED BACK
+T23 RESULT OF: select * from p_slock
+(0,)
+(0,)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+(3, -23, None, 0, None)
+T30 COMMITTED
+== QUERY execute procedure p_nos
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_nos
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ("Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At procedure 'P_NOS' line: 14, col: 29", -913, 335544336)
+T23 COMMITTED
+T28 EXECUTING: select * from t
+T28 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T28 COMMITTED
+T29 EXECUTING: select i, tn, sn, o, n from log
+T29 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+T29 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_nos
+T25 EXECUTING: update t set v=-1 where i in (1, 5)
+T25 EXECUTED: update t set v=-1 where i in (1, 5)
+T25 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: execute procedure p_nos
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, -23, None, 0, None)
+(1, 25, None, 0, -1)
+(5, 25, None, 0, -1)
+(3, -23, None, 0, None)
+T30 COMMITTED
+== QUERY execute procedure p_upd
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_upd
+T27 EXECUTING: update t set v=-1 where i in (1, 5)
+T27 EXECUTED: update t set v=-1 where i in (1, 5)
+T27 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ("Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21\n- At procedure 'P_UPD' line: 11, col: 21", -913, 335544336)
+T23 COMMITTED
+T30 EXECUTING: select * from t
+T30 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T30 COMMITTED
+T31 EXECUTING: select i, tn, sn, o, n from log
+T31 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(None, -23, None, None, None)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 27, None, 0, -1)
+(5, 27, None, 0, -1)
+T31 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: execute procedure p_upd
+T27 EXECUTING: update t set v=-1 where i in (1, 5)
+T27 EXECUTED: update t set v=-1 where i in (1, 5)
+T27 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: execute procedure p_upd
+T23 COMMITTED
+T30 EXECUTING: select * from t
+T30 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T30 COMMITTED
+T31 EXECUTING: select i, tn, sn, o, n from log
+T31 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(None, -23, None, None, None)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 27, None, 0, -1)
+(5, 27, None, 0, -1)
+T31 COMMITTED
+== QUERY select * from t where v=-1 or i in (3, 4) with lock
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (3, 4) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 COMMITTED
+T23 FETCH ERROR: ('Cursor.fetchone:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (3, 4) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 ROLLED BACK
+T23 RESULT OF: select * from t where v=-1 or i in (3, 4) with lock
+(3, 0)
+(4, 0)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+== QUERY select * from t where v=-1 or i in (2,3) with lock
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (2,3) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 COMMITTED
+T23 FETCH ERROR: ('Cursor.fetchone:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: select * from t where v=-1 or i in (2,3) with lock
+T24 EXECUTING: update t set v=-1 where i in (1, 5)
+T24 EXECUTED: update t set v=-1 where i in (1, 5)
+T24 COMMITTED
+T21 ROLLED BACK
+T23 RESULT OF: select * from t where v=-1 or i in (2,3) with lock
+(2, 0)
+(3, 0)
+T23 COMMITTED
+T27 EXECUTING: select * from t
+T27 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, 0)
+(4, 0)
+(5, -1)
+T27 COMMITTED
+T28 EXECUTING: select i, tn, sn, o, n from log
+T28 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(1, 24, None, 0, -1)
+(5, 24, None, 0, -1)
+T28 COMMITTED
+== QUERY 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ('Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: 
+    merge into t dest
+        using (select * from t where v=-1 or i in (2, 3)) src
+        on dest.i=src.i
+        when matched then
+            update set dest.v=1
+    
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY update t set v=1 where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update t set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ('Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: update t set v=1 where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: update t set v=1 where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 1)
+(3, 1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, 1)
+(3, 23, None, 0, 1)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+== QUERY delete from t where v=-1 or i in (2, 3)
+=== BLOCKER True
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from t where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 COMMITTED
+T23 EXECUTE ERROR: ('Error while executing SQL statement:\n- SQLCODE: -913\n- deadlock\n- update conflicts with concurrent update\n- concurrent transaction number is 21', -913, 335544336)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(2, 0)
+(3, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
+=== BLOCKER False
+T21 EXECUTING: update t set v=-1 where i=3
+T21 EXECUTED: update t set v=-1 where i=3
+T23 EXECUTING: delete from t where v=-1 or i in (2, 3)
+T26 EXECUTING: update t set v=-1 where i in (1, 5)
+T26 EXECUTED: update t set v=-1 where i in (1, 5)
+T26 COMMITTED
+T21 ROLLED BACK
+T23 EXECUTED: delete from t where v=-1 or i in (2, 3)
+T23 COMMITTED
+T29 EXECUTING: select * from t
+T29 RESULT OF: select * from t
+(1, -1)
+(4, 0)
+(5, -1)
+T29 COMMITTED
+T30 EXECUTING: select i, tn, sn, o, n from log
+T30 RESULT OF: select i, tn, sn, o, n from log
+(3, 21, None, 0, -1)
+(2, 23, None, 0, None)
+(3, 23, None, 0, None)
+(1, 26, None, 0, -1)
+(5, 26, None, 0, -1)
+T30 COMMITTED
