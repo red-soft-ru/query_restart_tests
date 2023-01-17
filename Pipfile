@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 fdb = "==2.0.1"
-future = "==0.18.2"
+future = "==0.18.3"
 
 [requires]
 python_version = "3.7"
